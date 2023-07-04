@@ -21,7 +21,6 @@ public class VectorQSimParserPlugin extends QParserPlugin {
             public Query parse() throws SyntaxError {
                 String field = localParams.get(QueryParsing.F);
                 String vector = localParams.get("vector");
-                //String metric = localParams.get("metric");
 
                 if (field == null) {
                     throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "'f' no specified");
@@ -31,10 +30,21 @@ public class VectorQSimParserPlugin extends QParserPlugin {
                     throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "vector missing");
                 }
 
-                // if (metric == null) {
-                //     throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "metric mussing");
-                // }
+                String[] limits = vector.split(",");
 
+                double low_limit, up_limit;
+               
+                low_limit = Double.parseDouble(limits[0]);
+                up_limit = Double.parseDouble(limits[1]);
+                
+                if (low_limit < 0 || low_limit > 100 || up_limit < 0 || up_limit > 100) {
+                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "Limits must be between 0 and 100%.");
+                }
+
+                if (low_limit >= up_limit) {
+                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "The lower limit must be lower than the upper limit");
+                }
+            
                 Query subQuery = subQuery(localParams.get(QueryParsing.V), null).getQuery();
 
                 FieldType ft = req.getCore().getLatestSchema().getFieldType(field);
