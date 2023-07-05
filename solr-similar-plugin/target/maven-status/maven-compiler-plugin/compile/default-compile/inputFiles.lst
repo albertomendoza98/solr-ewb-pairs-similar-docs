@@ -1,4 +1,6 @@
-/Users/lbartolome/Documents/GitHub/solr-ewb-jensen-shanon-distance-plugin/solr-js-plugin/src/main/java/com/ewb/VectorQParserPlugin.java
-/Users/lbartolome/Documents/GitHub/solr-ewb-jensen-shanon-distance-plugin/solr-js-plugin/src/main/java/com/ewb/VectorValuesSource.java
-/Users/lbartolome/Documents/GitHub/solr-ewb-jensen-shanon-distance-plugin/solr-js-plugin/src/main/java/com/ewb/VectorQuery.java
-/Users/lbartolome/Documents/GitHub/solr-ewb-jensen-shanon-distance-plugin/solr-js-plugin/src/main/java/com/ewb/Distance.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/Distance.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/VectorValuesSource.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/docSimilarity.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/VectorQSimParserPlugin.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/SimilarityComparator.java
+/Users/amendoza/Desktop/EWB_auxiliar/solr-ewb-pairs-similar-docs/solr-similar-plugin/src/main/java/com/ewb/VectorQuery.java
