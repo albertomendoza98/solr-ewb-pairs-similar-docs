@@ -12,16 +12,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.*;
 import java.util.Comparator;
 
 /*
  * This class receives the query vector and computes its distance to the document vector by reading the vector values directly from the Lucene index. As distance metric, the Jensen-Shannon divergence is used.
  */
-public class VectorValuesSource {
+public class VectorValuesSource extends DoubleValuesSource {
     private final String field;
 
     private Terms terms; // Access to the terms in a specific field
@@ -85,8 +83,35 @@ public class VectorValuesSource {
 
                 double lowerLimit = Double.parseDouble(limits[0])/100;
                 double upperLimit = Double.parseDouble(limits[1])/100;
-        
+
+                int low_index = -1;
+                int up_index = -1;
+
+                for (int i = 0; i < doc_id.size(); i++) {
+                    double similarity = doc_sim.get(i);
+                    
+                    if (similarity <= upperLimit && low_index == -1) {
+                        // Percentage of similarity is greater than or equal 
+                        // to the lower percentage and the initial index has not yet been found.
+                        low_index = i;
+                    }
+                    
+                    if (similarity < lowerLimit) {
+                        // Percentage of similarity is greater than the top percentage, 
+                        // the final index is established and the cycle is broken.
+                        up_index = i - 1;
+                        break;
+                    }
+                }
+                
+                if (up_index == -1){
+                    up_index = doc_id.size() - 1;
+                }
+
+                score = Double.parseDouble(low_index + "." + up_index);
+                
                 // Step 1: Filter the docSimilarity within the lower and upper limits
+                /* 
                 List<docSimilarity> filteredSimilarities = new ArrayList<>();
                 for (int i = 0; i < doc_id.size(); i++) {
                     String id = doc_id.get(i);
@@ -96,9 +121,9 @@ public class VectorValuesSource {
                         filteredSimilarities.add(new docSimilarity(id, similarity));
                     }
                 }
-
+                */
                 // Step 2: Order filtered similarities in descendent order
-                Collections.sort(filteredSimilarities, new SimilarityComparator().reversed());
+                //Collections.sort(filteredSimilarities, new SimilarityComparator().reversed());
                 /* 
                 // Step 3: Create a new String with the filtered similarities
                 List<String> output = new ArrayList<>();
@@ -108,8 +133,6 @@ public class VectorValuesSource {
 
                 System.out.println(output);
                 */
-
-                score = 0.0;
 
                 return score;
             }
