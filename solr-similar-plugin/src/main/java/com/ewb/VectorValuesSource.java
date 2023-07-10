@@ -112,9 +112,12 @@ public class VectorValuesSource extends DoubleValuesSource {
                 score = Double.parseDouble(low_index + "." + up_index);
                 String doc_id_aux = doc_id.toString();
                 String doc_sims_aux = doc_sim.toString(); 
+                System.out.println("uno" + doc_id_aux + "-- dos" + doc_sims_aux + "-- tres" +  score + "-- cuatro" + lowerLimit + "-- cinco" + upperLimit);
                 int aux  = 1;
                 if (aux == 1){
-                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, doc_id_aux + "--" + doc_sims_aux + "--" +  score + "--" + lowerLimit + "--" + upperLimit);
+                    
+                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "uno" + doc_id_aux + "-- dos" + doc_sims_aux + "-- tres" +  score + "-- cuatro" + lowerLimit + "-- cinco" + upperLimit);
+                   
                 }
                 
                 
