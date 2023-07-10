@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.*;
 import java.util.Comparator;
+import org.apache.solr.common.SolrException;
 
 /*
  * This class receives the query vector and computes its distance to the document vector by reading the vector values directly from the Lucene index. As distance metric, the Jensen-Shannon divergence is used.
@@ -109,6 +110,13 @@ public class VectorValuesSource extends DoubleValuesSource {
                 }
 
                 score = Double.parseDouble(low_index + "." + up_index);
+                String doc_id_aux = doc_id.toString();
+                String doc_sims_aux = doc_sim.toString(); 
+                int aux  = 1;
+                if (aux == 1){
+                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, doc_id_aux + "--" + doc_sims_aux + "--" +  score + "--" + lowerLimit + "--" + upperLimit);
+                }
+                
                 
                 // Step 1: Filter the docSimilarity within the lower and upper limits
                 /* 
