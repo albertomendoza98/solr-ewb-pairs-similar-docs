@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.*;
 import java.util.Comparator;
 import org.apache.solr.common.SolrException;
@@ -26,6 +27,7 @@ public class VectorValuesSource extends DoubleValuesSource {
     private Terms terms; // Access to the terms in a specific field
     private TermsEnum te; // Iterator to step through terms to obtain frequency information
     private String[] limits;
+    private static final Logger logger = Logger.getLogger(VectorValuesSource.class.getName());
 
     public VectorValuesSource(String field, String strVector) {
         /*
@@ -59,7 +61,9 @@ public class VectorValuesSource extends DoubleValuesSource {
                 List<String> doc_id = new ArrayList<String>();
                 List<Double> doc_sim = new ArrayList<Double>();
                 while ((text = te.next()) != null) {
+                    logger.info("-- INSIDE THE FIRST LOOP");
                     term = text.utf8ToString();
+                    logger.info("-- TERM OF SIM_MALLET-10 IS: " + term);
                     if (term.isEmpty()) {
                         continue;
                     }
@@ -71,6 +75,7 @@ public class VectorValuesSource extends DoubleValuesSource {
                     // iterating all payload components (we will have as many components as topics
                     // the model has)
                     while (postings.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+                        logger.info("-- INSIDE THE SECOND LOOP");
                         int freq = postings.freq();
                         while (freq-- > 0)
                             postings.nextPosition();
@@ -79,8 +84,14 @@ public class VectorValuesSource extends DoubleValuesSource {
                         payloadValue = PayloadHelper.decodeInt(payload.bytes, payload.offset);
                         doc_id.add(term);
                         doc_sim.add((double) payloadValue);
+                        logger.info("Doc_id: " + doc_id.toString());
+                        logger.info("Doc_sim: " + doc_sim.toString());
                     }
-                }              
+                }  
+                
+                logger.info("-- OUT OF THE LOOPS");
+                logger.info("Doc_id: " + doc_id.toString());
+                logger.info("Doc_sim: " + doc_sim.toString());
 
                 double lowerLimit = Double.parseDouble(limits[0])/100;
                 double upperLimit = Double.parseDouble(limits[1])/100;
