@@ -81,7 +81,7 @@ public class VectorValuesSource extends DoubleValuesSource {
                             postings.nextPosition();
 
                         BytesRef payload = postings.getPayload();
-                        payloadValue = PayloadHelper.decodeInt(payload.bytes, payload.offset);
+                        payloadValue = PayloadHelper.decodeFloat(payload.bytes, payload.offset);
                         doc_id.add(term);
                         doc_sim.add((double) payloadValue);
                         logger.info("Doc_id: " + doc_id.toString());
