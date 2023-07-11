@@ -125,8 +125,13 @@ public class VectorValuesSource extends DoubleValuesSource {
                 String doc_sims_aux = doc_sim.toString(); 
                 System.out.println("uno" + doc_id_aux + "-- dos" + doc_sims_aux + "-- tres" +  score + "-- cuatro" + lowerLimit + "-- cinco" + upperLimit);
                 int aux  = 1;
+                try {
+                    aux = aux/0;
+                } catch (Exception e) {
+                    // TODO: handle exception
+                    throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "uno" + doc_id_aux + "-- dos" + doc_sims_aux + "-- tres" +  score + "-- cuatro" + lowerLimit + "-- cinco" + upperLimit);
+                }
                 
-                throw new SolrException(SolrException.ErrorCode.BAD_REQUEST, "uno" + doc_id_aux + "-- dos" + doc_sims_aux + "-- tres" +  score + "-- cuatro" + lowerLimit + "-- cinco" + upperLimit);
                    
                 
                 
